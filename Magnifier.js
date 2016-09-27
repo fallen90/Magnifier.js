@@ -157,21 +157,12 @@ var Magnifier = function (evt, options) {
         },
         updateLensOnLoad = function (idx, thumb, large, largeWrapper) {
             var lens = $('#' + idx + '-lens'),
-                textWrapper = null;
-
-            if (data[idx].status === 1) {
-                textWrapper = document.createElement('div');
-                textWrapper.className = 'magnifier-loader-text';
-                lens.className = 'magnifier-loader hidden';
-
-                textWrapper.appendChild(document.createTextNode('Loading...'));
-                lens.appendChild(textWrapper);
-            } else if (data[idx].status === 2) {
+            if (data[idx].status === 2) {
                 lens.className = 'magnifier-lens hidden';
-                if(lens.childNodes[0] instanceof Node){
-                    lens.removeChild(lens.childNodes[0]);
-                }
-                lens.style.background = 'url(' + thumb.src + ') no-repeat 0 0 scroll';
+                lens.style.backgroundImage = 'url(' + thumb.src + ')';
+                lens.style.backgroundPositionX = '0';
+                lens.style.backgroundPositionY = '0';
+                lens.style.backgroundAttachment ='scroll';
 
                 large.id = idx + '-large';
                 large.style.width = data[idx].largeW + 'px';
@@ -349,9 +340,10 @@ var Magnifier = function (evt, options) {
             if (curData.status > 0) {
                 curThumb.className = curData.thumbCssClass + ' opaque';
 
-                if (curData.status === 1) {
-                    curLens.className = 'magnifier-loader';
-                } else if (curData.status === 2) {
+                // if (curData.status === 1) {
+                //     curLens.className = 'magnifier-loader';
+                // } else 
+                if (curData.status === 2) {
                     curLens.className = 'magnifier-lens';
                     curLarge.className = 'magnifier-large';
                     curLarge.style.left = '-' + curData.largeL + 'px';
@@ -430,7 +422,11 @@ var Magnifier = function (evt, options) {
     this.setThumb = function (thumb) {
         curThumb = thumb;
     };
-
+    this.setData = function(data){
+        curLarge.src = data.large.image;
+        curLens.style.backgroundImage = data.lens.image;
+        curLens.style.backgroundSize = data.lens.size;
+    }
     this.set = function (options) {
         if (data[options.thumb.id] !== undefined) {
             curThumb = options.thumb;
