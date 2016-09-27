@@ -156,7 +156,7 @@ var Magnifier = function (evt, options) {
             curLarge.style.height = curData.largeH + 'px';
         },
         updateLensOnLoad = function (idx, thumb, large, largeWrapper) {
-            var lens = $('#' + idx + '-lens'),
+            var lens = $('#' + idx + '-lens');
             if (data[idx].status === 2) {
                 lens.className = 'magnifier-lens hidden';
                 lens.style.backgroundImage = 'url(' + thumb.src + ')';
